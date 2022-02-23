@@ -2,30 +2,55 @@ package remote_command
 
 import (
 	"fmt"
+	"time"
+
+	"github.com/shirou/gopsutil/v3/cpu"
+	"github.com/shirou/gopsutil/v3/mem"
 )
 
-/*
-系統資訊
--t, Current UTC time
--cu, Current CPU usage
--ar, Available RAM
--culh, CPU usage over last hour
--arlh,  Available RAM over last hour
-
--s=xxxx, Make computer "say" something
-
-用 espeak 功能 -> 把系統資訊 唸出來
-
-*/
 type RC struct {
-	inputs              string
-	hashAlgPtr, sizePtr *int
+	// inputs              string
+	// hashAlgPtr, sizePtr *int
 }
 
 func init() {
-	fmt.Println("Hello")
+	//fmt.Println("init RC")
 }
 
-func (rc *RC) Command() int32 {
-	return 100
+func (rc *RC) Command() {
+	memInfo, err := mem.VirtualMemory()
+	if err != nil {
+		fmt.Printf("get total mem info failed, err:%v", err)
+	}
+	// bytes to gigabytes
+	memAvailableStr := fmt.Sprintf("Available RAM %.3f GB\n", float64(memInfo.Available)/(1<<30))
+
+	// cpuInfos, err := cpu.Info()
+	// if err != nil {
+	// 	fmt.Printf("get cpu info failed, err:%v", err)
+	// }
+	// for _, info := range cpuInfos {
+	// 	data, _ := json.MarshalIndent(info, "", " ")
+	// 	fmt.Print(string(data))
+	// }
+
+	// Current UTC time
+	// "2006-01-02 15:04:05" (go的誕生時間)
+	timeStr := fmt.Sprintf("Current UTC time %v\n", time.Now().UTC().Format("2006/01/02 15:04:05"))
+	// 2022/02/23 06:37:01
+	//fmt.Printf("Current UTC time %v\n", time.Now().UTC().Format(time.UnixDate))
+	// Wed Feb 23 06:39:28 UTC 2022
+
+	// CPU usage
+	percent, err := cpu.Percent(time.Second, false)
+	if err != nil {
+		fmt.Printf("get total cpu percent failed, err:%v", err)
+	}
+	percentStr := fmt.Sprintf("cpu total percent is %.2f%%\n", percent[0])
+	// CPU usage over last hour
+
+	fmt.Print(timeStr)
+	fmt.Print(percentStr)
+	fmt.Print(memAvailableStr)
+
 }
