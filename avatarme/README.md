@@ -1,3 +1,5 @@
+Generate a avatar .png file
+
 ## Usage
 ```
 go run main.go -inputs=abcde
@@ -11,11 +13,11 @@ go run main.go -h // check how to use
 ```go
 package main
 import (
-  "main/avatarme"
+  "github.com/tingwei628/pgo/avatarme"
 )
 func main () {
-  avatarme := avatarme.Avatarme{}
-  avatarme.Generate() // it generates .png file
+    avatarme := avatarme.Avatarme{}
+    avatarme.Generate() // it generates .png file
 }
 ```
 
