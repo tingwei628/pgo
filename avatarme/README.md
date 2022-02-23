@@ -1,6 +1,6 @@
 Generate a avatar .png file
 
-## Usage
+- Usage
 ```
 go run main.go -inputs=abcde
 ``` 
@@ -21,5 +21,5 @@ func main () {
 }
 ```
 
-## Reference
+- Reference
 [Tutorial: Identicon generator in Go](https://bartfokker.com/posts/identicon/)

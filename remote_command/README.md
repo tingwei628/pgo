@@ -1,7 +1,6 @@
-Speak out the system information in macOS \
-e.g. Current UTC time, CPU usage, Available RAM
+Speak out the system information `e.g. Current UTC time, CPU usage, Available RAM` in macOS
 
-## Usage
+- Usage
 
 ```
 go run main.go
@@ -19,5 +18,5 @@ func main () {
 }
 ```
 
-## Reference
+- Reference
 [gopsutil](https://github.com/shirou/gopsutil)
