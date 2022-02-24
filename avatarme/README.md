@@ -1,4 +1,4 @@
-Generate a avatar .png file
+Generate a avatar picture(.png)
 
 - Usage
 ```

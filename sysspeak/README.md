@@ -1,4 +1,4 @@
-Speak out the system information `e.g. Current UTC time, CPU usage, Available RAM` in macOS
+Speak out the system information in macOS
 
 - Usage
 
@@ -10,10 +10,10 @@ go run main.go
 ```go
 package main
 import (
-  "github.com/tingwei628/pgo/remote_command"
+  "github.com/tingwei628/pgo/sysspeak"
 )
 func main () {
-    rc := remote_command.RC{}
+    rc := sysspeak.RC{}
     rc.Command()
 }
 ```

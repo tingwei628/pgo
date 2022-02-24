@@ -1,4 +1,4 @@
-package remote_command
+package sysspeak
 
 import (
 	"fmt"

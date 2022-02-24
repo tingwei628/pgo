@@ -1,13 +1,12 @@
 package main
 
 import (
-	// "pgo/remote_command"
 	//"github.com/tingwei628/pgo/avatarme"
-	"github.com/tingwei628/pgo/remote_command"
+	"github.com/tingwei628/pgo/sysspeak"
 )
 
 func main() {
-	rc := remote_command.RC{}
+	rc := sysspeak.RC{}
 	rc.Command()
 
 	//avatarme := avatarme.Avatarme{}
