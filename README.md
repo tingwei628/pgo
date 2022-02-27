@@ -5,6 +5,6 @@ practices in go
 | --- | ----------- |
 | avatarme | Generate a avatar picture(.png) |
 | sysspeak | Speak out the system information in macOS |
-| tgbotpay |  telement bot payment with Stripe|
+| tgbotpay |  The payment test with a Telegram bot|
 | godoc_api |  |
 |  |  |
