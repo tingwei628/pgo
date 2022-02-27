@@ -19,7 +19,7 @@ func main () {
 }
 ```
 
-- Reference
+- Reference \
 [Telegram bot](https://core.telegram.org/bots) \
 [Telegram bot payments](https://core.telegram.org/bots/api#payments) \
 [Stripe Tesing](https://stripe.com/docs/testing#cards)
