@@ -25,7 +25,8 @@ type API struct {
 }
 
 const (
-	ADDR = "127.0.0.1:9999"
+	//ADDR = "127.0.0.1:9999"
+	ADDR = ":9999"
 )
 
 var server *http.Server = &http.Server{
