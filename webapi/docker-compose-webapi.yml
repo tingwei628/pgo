@@ -1,0 +1,76 @@
+# reverse-proxy
+# db
+# webapi
+# docker-compose scale webapi=3
+services:
+  # caddy
+  caddy_reverse_proxy:
+    image:  slothcroissant/caddy-cloudflaredns:latest
+    container_name: reverse_proxy
+    # build:
+    #   context: . # docker build, context is to locate Dockerfile
+    #   dockerfile: caddy.Dockerfile
+    networks:
+      - proxy
+      - backend
+    env_file:
+      - webapi.env # your own .env 
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+      # - caddy_log:/logs
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    ports:
+      - "80:80"
+      - "443:443"
+      - "9999:10001"
+      # - "443:443"
+      # - "80"
+
+
+  # only webapi can crud db cuz on the same subnet "postgresql"
+  webapi:
+    image: tingwei628/pgo_webapi:latest
+    depends_on:
+      # - db
+      - "caddy_reverse_proxy"
+    # deploy: # deploy 5 containers # swarm mode
+    #     replicas: 5
+    # ports: # same container port 80 and expose 5 different host ports
+    #   -"10001-10005:80"
+    expose:
+      - "10001"
+    networks:
+      - backend
+    restart: unless-stopped
+    # environment:
+    #   DB_HOST: db:3306
+    #   DB_PASSWORD: webapi
+
+  # keinos/sqlite3
+  # db:
+  #   image: postgresql:13
+  #   networks:
+  #     - backend
+  #   volume:
+  #     - db_data:/var/lib/postgresql
+  #   restart: unless-stopped
+  #   environment:
+  #     PG_PASSWORD: 123
+  #     PG_DATABASE: mydb
+  #     PG_USER: me
+
+
+volumes:
+  caddy_data:
+  caddy_config:
+  # caddy_log:
+  # db_data:
+
+# Create two networks
+# 1. Create "proxy" network for the Caddy container. This is the only container exposed to the internet
+networks:
+  backend:
+  proxy:
+
+

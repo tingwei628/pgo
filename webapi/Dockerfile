@@ -6,16 +6,11 @@ COPY webapi ./webapi
 COPY main.go .
 RUN go mod download
 
-RUN CGO_ENABLED=0 go build -o bin/webapi
-
-
-# RUN go build -o ./app/webapi
-# ENTRYPOINT ["./app/webapi"]
-# RUN CGO_ENABLED=0 GOOS=linux go build -o ./app/webapi
-
+# RUN CGO_ENABLED=0 go build -o bin/webapi
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o bin/webapi
 
 # FROM gcr.io/distroless/base
-FROM gcr.io/distroless/base AS final
+FROM scratch
 WORKDIR /app
 COPY  --from=builder /app/bin/webapi /app/bin/webapi
 ENTRYPOINT ["./bin/webapi"]
