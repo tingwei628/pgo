@@ -7,3 +7,13 @@
     # webapi is a container name
     reverse_proxy webapi:9999
 }
+
+"www.{env.DOMAIN}" {
+	encode zstd gzip
+    tls {
+        dns cloudflare {env.CF_API_TOKEN}  
+    }
+    # localhost is caddy container itself
+    # webapi is a container name
+    reverse_proxy webapi:9999
+}
