@@ -5,7 +5,8 @@
 services:
   # caddy
   caddy_reverse_proxy:
-    image:  slothcroissant/caddy-cloudflaredns:latest
+    # image:  slothcroissant/caddy-cloudflaredns:latest
+    image:  tingwei628/pgo_caddy:latest
     container_name: reverse_proxy
     # build:
     #   context: . # docker build, context is to locate Dockerfile
@@ -20,13 +21,14 @@ services:
       - caddy_config:/config
       # - caddy_log:/logs
       - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./pytg:/pytg
     ports:
       - "80:80"
       - "443:443"
       - "9999:10001"
+      - "9998:9998"
       # - "443:443"
       # - "80"
-
 
   # only webapi can crud db cuz on the same subnet "postgresql"
   webapi:
