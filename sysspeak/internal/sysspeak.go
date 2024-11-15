@@ -1,4 +1,4 @@
-package sysspeak
+package internal
 
 import (
 	"fmt"

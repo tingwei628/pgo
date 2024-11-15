@@ -1,4 +1,4 @@
-package avatarme
+package internal
 
 import (
 	"crypto/sha1"

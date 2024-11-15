@@ -1,4 +1,4 @@
-package tgbotpay
+package internal
 
 import (
 	_ "fmt"

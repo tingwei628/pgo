@@ -1,4 +1,4 @@
-package webapi
+package internal
 
 import (
 	"context"
@@ -11,11 +11,10 @@ import (
 	"time"
 )
 
-type API struct {
+type Instance struct {
 }
 
 const (
-	//ADDR = "127.0.0.1:9999"
 	ADDR = ":9999"
 )
 
@@ -26,7 +25,7 @@ var server *http.Server = &http.Server{
 //	func init() {
 //		//httpHandlerSetup()
 //	}
-func (api *API) Run() {
+func (api *Instance) Run() {
 	httpHandlerSetup()
 }
 
@@ -50,11 +49,6 @@ func httpHandlerSetup() {
 			log.Fatalf("\n[%v] server shutdonw error %v", time.Now().Local().Format("2006-01-02 15:04:05"), err)
 		}
 
-		// directly shutdown server
-		//if err := server.Shutdown(context.Background()); err != nil {
-		//	log.Fatalf("server shutdonw error %v", err)
-		//}
-
 		// after close all connection then close idleConnectionClosed
 		fmt.Printf("\n[%v] idle connections closed", time.Now().Local().Format("2006-01-02 15:04:05"))
 		close(idleConnectionClosed)
@@ -67,11 +61,7 @@ func httpHandlerSetup() {
 	// block until idleConnectionClosed closed
 	<-idleConnectionClosed
 	fmt.Printf("\n[%v] server closed", time.Now().Local().Format("2006-01-02 15:04:05"))
-	//if serverError := http.ListenAndServe(":9999", nil); serverError != nil && serverError != http.ErrServerClosed {
-	//	log.Fatal(serverError)
-	//}
 
-	//log.Fatal(http.ListenAndServe(":9999", nil))
 }
 func handler_start(w http.ResponseWriter, r *http.Request) {
 
