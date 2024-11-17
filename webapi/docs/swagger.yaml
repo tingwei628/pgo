@@ -1,0 +1,111 @@
+basePath: /
+definitions:
+  entity.Item:
+    properties:
+      status:
+        type: string
+      task:
+        type: string
+    type: object
+  transport.ErrorResponse:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+    type: object
+  transport.TodoItem:
+    properties:
+      item:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    name: API Support
+  description: web api in pgo
+  license: {}
+  title: web api
+  version: "1.0"
+paths:
+  /search:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: keyword
+        in: query
+        name: q
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Item'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/transport.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/transport.ErrorResponse'
+      summary: search todo by keyword
+      tags:
+      - todo
+  /todo:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.Item'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/transport.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/transport.ErrorResponse'
+      summary: get all todos
+      tags:
+      - todo
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: todo item
+        in: body
+        name: todo
+        required: true
+        schema:
+          $ref: '#/definitions/transport.TodoItem'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/transport.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/transport.ErrorResponse'
+      summary: add todo
+      tags:
+      - todo
+swagger: "2.0"
