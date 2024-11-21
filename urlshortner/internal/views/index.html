@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            font-size: 1em;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #3498db;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #fff;
+            background-color: #3498db;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #ecf0f1;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 350px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('shortenForm');
+            const resultDiv = document.getElementById('result');
+
+            if (form) {
+                form.addEventListener('submit', async function (event) {
+                    event.preventDefault();
+                    const url = document.getElementById('urlInput').value;
+
+                    const response = await fetch('/shorten', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                        body: `url=${encodeURIComponent(url)}`
+                    });
+
+                    resultDiv.innerHTML = await response.text();
+                    const script = resultDiv.querySelector('script')
+                    if (script) {
+                        new Function(script.innerText)()
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+<h1>URL Shortener</h1>
+<form id="shortenForm" action="/shorten" method="POST">
+    <input type="text" name="url" id="urlInput" placeholder="Enter URL to shorten" required>
+    <button type="submit">Shorten</button>
+</form>
+<div id="result"></div>
+</body>
+</html>
