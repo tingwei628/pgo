@@ -34,7 +34,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/${{ steps.repo_name.outputs.repo_name }}/${{ github.event.inputs.image_path }}:${{ github.event.inputs.image_tag }} -f ${{ steps.repo_name.outputs.repo_name }}/${{ github.event.inputs.image_path }}/Dockerfile .
+          docker build -t ghcr.io/${{ github.repository_owner }}/${{ steps.repo_name.outputs.repo_name }}/${{ github.event.inputs.image_path }}:${{ github.event.inputs.image_tag }} -f ${{ github.event.inputs.image_path }}/Dockerfile .
 
       - name: Push Docker Image to GHCR
         run: |
