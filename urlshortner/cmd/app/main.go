@@ -45,5 +45,5 @@ func main() {
 
 	wrappedMux := middleware.RateLimit(mux)
 
-	log.Fatal(http.ListenAndServe(":8080", wrappedMux))
+	log.Fatal(http.ListenAndServe(":8002", wrappedMux))
 }
