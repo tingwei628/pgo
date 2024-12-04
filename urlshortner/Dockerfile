@@ -5,13 +5,12 @@ WORKDIR /build
 
 COPY ./urlshortner/go.mod .
 
-RUN go mod tidy
+RUN go mod download
 
 COPY ./urlshortner .
 
-# -trimpath to support reproduce build.
 # -ldflags="-s -w" to strip debugging information.
-RUN go build -o ./app -trimpath -ldflags="-s -w" .
+RUN go build -v -o ./app -ldflags="-s -w" ./cmd/app
 
 # Runtime stage
 FROM gcr.io/distroless/static-debian12:nonroot
