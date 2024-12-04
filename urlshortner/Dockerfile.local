@@ -1,20 +1,23 @@
 # Build stage
 FROM golang:1.23-alpine AS build
 
-WORKDIR /build
+WORKDIR /urlshortner
 
-COPY ./urlshortner/go.mod .
-
+COPY go.mod .
 RUN go mod download
 
-COPY ./urlshortner .
+COPY . .
 
-# -ldflags="-s -w" to strip debugging information.
-RUN go build -mod=mod -v -o ./app -ldflags="-s -w" ./cmd/app
+RUN go build -mod=mod -v -o /app -ldflags="-s -w" /urlshortner/cmd/app/
 
 # Runtime stage
 FROM gcr.io/distroless/static-debian12:nonroot
-
-COPY --from=build /build/app /app
+WORKDIR /
+COPY --from=build /app .
+COPY --from=build --chown=nonroot /urlshortner/internal/db.sqlite /urlshortner/internal/db.sqlite
+COPY --from=build /urlshortner/internal/views /urlshortner/internal/views
 
 ENTRYPOINT ["/app"]
+
+# docker build -f ./urlshortner/Dockerfile.local -t urlshortner:latest ./urlshortner
+# docker run -p 8002:8002 urlshortner:latest
