@@ -1,17 +1,22 @@
 # Build stage
-FROM golang:1.23 AS build
+FROM golang:1.23-alpine AS build
 
-COPY . /app
-WORKDIR /app
+WORKDIR /build
 
+COPY go.mod .
+COPY go.sum .
+# Download Go module dependencies
 RUN go mod download
 
-RUN go build -o main .
+COPY . .
+
+# -trimpath to support reproduce build.
+# -ldflags="-s -w" to strip debugging information.
+RUN go build -o ./app -trimpath -ldflags="-s -w" .
 
 # Runtime stage
 FROM gcr.io/distroless/static-debian12:nonroot
 
-COPY --from=build /app/main /app/main
+COPY --from=build /build/app /app
 
-WORKDIR /app
-ENTRYPOINT ["./main"]
+ENTRYPOINT ["/app"]
