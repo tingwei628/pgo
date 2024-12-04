@@ -1,16 +1,17 @@
 # Build stage
 FROM golang:1.23 AS build
 
+COPY . /app
 WORKDIR /app
-COPY go.mod go.sum ./
+
 RUN go mod download
 
-COPY . .
-RUN go build -o urlshortner .
+RUN go build -o main .
 
 # Runtime stage
 FROM gcr.io/distroless/static-debian12:nonroot
 
-COPY --from=build /app/urlshortner /app/urlshortner
+COPY --from=build /app/main /app/main
 
-ENTRYPOINT ["/app/urlshortner"]
+WORKDIR /app
+ENTRYPOINT ["./main"]
