@@ -3,11 +3,11 @@ FROM golang:1.23-alpine AS build
 
 WORKDIR /build
 
-COPY go.mod .
+COPY ./urlshortner/go.mod .
 
 RUN go mod tidy
 
-COPY . .
+COPY ./urlshortner .
 
 # -trimpath to support reproduce build.
 # -ldflags="-s -w" to strip debugging information.
