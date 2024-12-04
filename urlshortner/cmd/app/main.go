@@ -2,22 +2,22 @@ package main
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/tingwei628/pgo/urlshortner/internal/controllers"
 	"github.com/tingwei628/pgo/urlshortner/internal/middleware"
 	"github.com/tingwei628/pgo/urlshortner/internal/project"
 	"github.com/tingwei628/pgo/urlshortner/internal/repository"
 	"log"
+	_ "modernc.org/sqlite"
 	"net/http"
 	"time"
 )
 
 func main() {
-	
+
 	fs := http.FileServer(http.Dir("views"))
 	http.Handle("/views/", http.StripPrefix("/views/", fs))
 
-	db, err := sql.Open("sqlite3", project.WorkingDir+"/internal/db.sqlite")
+	db, err := sql.Open("sqlite", project.WorkingDir+"/internal/db.sqlite")
 	if err != nil {
 		log.Fatal(err)
 	}
