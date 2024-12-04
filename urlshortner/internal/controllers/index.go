@@ -1,14 +1,13 @@
 package controllers
 
 import (
+	"github.com/tingwei628/pgo/urlshortner/internal/project"
 	"net/http"
-	"os"
 	"text/template"
 )
 
 func GetIndex(w http.ResponseWriter, _ *http.Request) {
-	workingDir, _ := os.Getwd() // get root directory
-	tmpl, err := template.ParseFiles(workingDir + "/urlshortner/internal/views/index.html")
+	tmpl, err := template.ParseFiles(project.WorkingDir + "/internal/views/index.html")
 
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

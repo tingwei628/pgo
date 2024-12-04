@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"database/sql"
+	"github.com/tingwei628/pgo/urlshortner/internal/project"
 	"github.com/tingwei628/pgo/urlshortner/internal/repository"
 	"github.com/tingwei628/pgo/urlshortner/internal/url"
 	"net/http"
-	"os"
 	"strings"
 	"text/template"
 	"time"
@@ -49,8 +49,7 @@ func GetShorten(db *sql.DB) http.HandlerFunc {
 			"ShortURL": shortURL,
 		}
 
-		workingDir, _ := os.Getwd() // get root directory
-		tmpl, err := template.ParseFiles(workingDir + "/urlshortner/internal/views/shorten.html")
+		tmpl, err := template.ParseFiles(project.WorkingDir + "/internal/views/shorten.html")
 
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
