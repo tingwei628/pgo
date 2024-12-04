@@ -10,7 +10,7 @@ RUN go mod download
 COPY ./urlshortner .
 
 # -ldflags="-s -w" to strip debugging information.
-RUN go build -v -o ./app -ldflags="-s -w" ./cmd/app
+RUN go build -mod=mod -v -o ./app -ldflags="-s -w" ./cmd/app
 
 # Runtime stage
 FROM gcr.io/distroless/static-debian12:nonroot
