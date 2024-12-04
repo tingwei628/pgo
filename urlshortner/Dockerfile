@@ -4,7 +4,6 @@ FROM golang:1.23-alpine AS build
 WORKDIR /build
 
 COPY go.mod .
-COPY go.sum .
 
 RUN go mod tidy
 
