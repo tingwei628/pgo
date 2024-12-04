@@ -5,8 +5,8 @@ WORKDIR /build
 
 COPY go.mod .
 COPY go.sum .
-# Download Go module dependencies
-RUN go mod download
+
+RUN go mod tidy
 
 COPY . .
 
