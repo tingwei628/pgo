@@ -16,7 +16,6 @@ func main() {
 
 	fs := http.FileServer(http.Dir("views"))
 	http.Handle("/views/", http.StripPrefix("/views/", fs))
-
 	db, err := sql.Open("sqlite", project.WorkingDir+"/internal/db.sqlite")
 	if err != nil {
 		log.Fatal(err)
