@@ -10,7 +10,7 @@ on:
       image_path:
         description: 'Path for the Docker image (e.g., urlshortner, myapp)'
         required: true
-        default: 'urlshortner'
+        default: 'urlshortener'
 
 jobs:
   build:
