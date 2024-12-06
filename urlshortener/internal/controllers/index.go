@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"github.com/tingwei628/pgo/urlshortner/internal/project"
+	"github.com/tingwei628/pgo/urlshortener/internal/project"
 	"net/http"
 	"text/template"
 )

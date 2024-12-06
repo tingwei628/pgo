@@ -2,10 +2,10 @@ package main
 
 import (
 	"database/sql"
-	"github.com/tingwei628/pgo/urlshortner/internal/controllers"
-	"github.com/tingwei628/pgo/urlshortner/internal/middleware"
-	"github.com/tingwei628/pgo/urlshortner/internal/project"
-	"github.com/tingwei628/pgo/urlshortner/internal/repository"
+	"github.com/tingwei628/pgo/urlshortener/internal/controllers"
+	"github.com/tingwei628/pgo/urlshortener/internal/middleware"
+	"github.com/tingwei628/pgo/urlshortener/internal/project"
+	"github.com/tingwei628/pgo/urlshortener/internal/repository"
 	"log"
 	_ "modernc.org/sqlite"
 	"net/http"

@@ -3,11 +3,11 @@ FROM golang:1.23-alpine AS build
 
 WORKDIR /build
 
-COPY ./urlshortner/go.mod .
+COPY ./urlshortener/go.mod .
 
 RUN go mod download
 
-COPY ./urlshortner .
+COPY ./urlshortener .
 
 # -ldflags="-s -w" to strip debugging information.
 RUN go build -mod=mod -v -o ./app -ldflags="-s -w" ./cmd/app

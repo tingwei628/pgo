@@ -71,7 +71,7 @@
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const prefix = "/urlshortner"
+            const prefix = "/urlshortener"
             const shortUrl = prefix + "/shorten";
             const form = document.getElementById('shortenForm');
             const resultDiv = document.getElementById('result');
@@ -99,7 +99,7 @@
 </head>
 <body>
 <h1>URL Shortener</h1>
-<form id="shortenForm" action="/urlshortner/shorten" method="POST">
+<form id="shortenForm" action="/urlshortener/shorten" method="POST">
     <input type="text" name="url" id="urlInput" placeholder="Enter URL to shorten" required>
     <button type="submit">Shorten</button>
 </form>

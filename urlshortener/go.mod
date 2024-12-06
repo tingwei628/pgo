@@ -1,4 +1,4 @@
-module github.com/tingwei628/pgo/urlshortner
+module github.com/tingwei628/pgo/urlshortener
 
 go 1.23.3
 

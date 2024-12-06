@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"database/sql"
-	"github.com/tingwei628/pgo/urlshortner/internal/project"
-	"github.com/tingwei628/pgo/urlshortner/internal/repository"
-	"github.com/tingwei628/pgo/urlshortner/internal/url"
+	"github.com/tingwei628/pgo/urlshortener/internal/project"
+	"github.com/tingwei628/pgo/urlshortener/internal/repository"
+	"github.com/tingwei628/pgo/urlshortener/internal/url"
 	"net/http"
 	"strings"
 	"text/template"
@@ -14,7 +14,7 @@ import (
 const (
 	HTTP_PREFIX  = "http://"
 	HTTPS_PREFIX = "https://"
-	DEFAULT_PATH = "/urlshortner"
+	DEFAULT_PATH = "/urlshortener"
 )
 
 func GetShorten(db *sql.DB) http.HandlerFunc {
