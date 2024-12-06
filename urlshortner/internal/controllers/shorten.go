@@ -14,6 +14,7 @@ import (
 const (
 	HTTP_PREFIX  = "http://"
 	HTTPS_PREFIX = "https://"
+	DEFAULT_PATH = "/urlshortner"
 )
 
 func GetShorten(db *sql.DB) http.HandlerFunc {
@@ -66,13 +67,14 @@ func GetShorten(db *sql.DB) http.HandlerFunc {
 
 func GetProxy(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		shortUrl := r.URL.Path[1:]
-		if strings.TrimSpace(shortUrl) == "" {
+		//shortUrl := r.URL.Path
+		shortUrl := strings.TrimPrefix(r.URL.Path, DEFAULT_PATH+"/")
+		if strings.TrimSpace(r.URL.Path) == "" || strings.TrimSpace(shortUrl) == "" {
 			http.Error(w, "url not provided", http.StatusBadRequest)
 			return
 		}
 		originalUrl, err := repository.GetOriginalURL(db, shortUrl)
-		if err != nil {
+		if err != nil || originalUrl == "" {
 			http.Error(w, err.Error(), http.StatusNotFound)
 			return
 		}

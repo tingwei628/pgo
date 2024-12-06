@@ -25,20 +25,20 @@ func main() {
 	if err := repository.CreateTable(db); err != nil {
 		log.Fatal(err)
 	}
-	// ttl = 20s
-	go repository.SetTTL(db, time.Second*20)
+	// ttl = 5mins
+	go repository.SetTTL(db, time.Minute*5)
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		if r.URL.Path == "/" {
-			controllers.GetIndex(w, r)
-		} else {
-			// shorten url
-			controllers.GetProxy(db)(w, r)
-		}
+	mux.HandleFunc(controllers.DEFAULT_PATH+"/{tail}", func(w http.ResponseWriter, r *http.Request) {
+		controllers.GetProxy(db)(w, r)
 	})
-	mux.HandleFunc("/shorten", controllers.GetShorten(db))
+
+	mux.HandleFunc(controllers.DEFAULT_PATH, func(w http.ResponseWriter, r *http.Request) {
+		controllers.GetIndex(w, r)
+	})
+
+	mux.HandleFunc(controllers.DEFAULT_PATH+"/shorten", controllers.GetShorten(db))
 
 	wrappedMux := middleware.RateLimit(mux)
 
