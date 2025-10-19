@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/tingwei628/pgo/blog/models"
 	"github.com/tingwei628/pgo/blog/routes"
@@ -19,6 +20,7 @@ func main() {
 			log.Fatalf("Error loading .env err  %v", err)
 		}
 	}
+	gin.SetMode(os.Getenv("GIN_MODE"))
 	// DB connection
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
 		os.Getenv("DB_HOST"),
