@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <meta name="description" content="blog">
+
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" as="style" onload="this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    </noscript>
+
+    <style>
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            font-family: system-ui, sans-serif;
+        }
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .header-row h1 {
+            margin: 0;
+            line-height: 2.5rem;
+        }
+        .add-btn {
+            min-height: 2.5rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+        }
+        .spinner-border {
+            width: 1rem;
+            height: 1rem;
+            margin-left: 0.5rem;
+        }
+        .post-card {
+            background-color: #fff;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            position: relative;
+            min-height: 100px;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .published-date {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        .post-link {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+            min-height: 60px;
+        }
+        .post-link h2 {
+            margin-bottom: 0;
+        }
+        .post-link:hover h2 {
+            color: #0d6efd;
+            text-decoration: underline;
+        }
+        .pagination {
+            min-height: 56px;
+        }
+
+        /* 全頁 Loading Overlay */
+        #loading-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+        #loading-overlay .spinner-border {
+            width: 3rem;
+            height: 3rem;
+        }
+        #loading-overlay span {
+            margin-top: 15px;
+            font-size: 1.2rem;
+            color: #007acc;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <div class="header-row">
+        <h1>Blog</h1>
+        <a href="/blog/add" class="btn btn-primary add-btn" id="add-btn">
+            Add
+            <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <ul class="list-unstyled">
+        {{range .Posts}}
+        <li>
+            <a href="/blog/view/{{.ID}}" class="post-link">
+                <div class="post-card">
+                    <span class="published-date">Published {{if .UpdatedAt}}{{.UpdatedAt}}{{else}}{{.CreatedAt}}{{end}}</span>
+                    <h2>{{.Title}}</h2>
+                </div>
+            </a>
+        </li>
+        {{else}}
+        <p>No posts yet.</p>
+        {{end}}
+    </ul>
+
+    {{if gt .TotalPages 1}}
+    <nav>
+        <ul class="pagination justify-content-center">
+            {{if gt .Page 1}}
+            <li class="page-item">
+                <a class="page-link page-link-nav" href="/?page={{sub .Page 1}}">Previous</a>
+            </li>
+            {{end}}
+            {{range $i := seq 1 .TotalPages}}
+            <li class="page-item {{if eq $i $.Page}}active{{end}}">
+                <a class="page-link page-link-nav" href="/?page={{$i}}">{{$i}}</a>
+            </li>
+            {{end}}
+            {{if lt .Page .TotalPages}}
+            <li class="page-item">
+                <a class="page-link page-link-nav" href="/?page={{add .Page 1}}">Next</a>
+            </li>
+            {{end}}
+        </ul>
+    </nav>
+    {{end}}
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay">
+    <div class="spinner-border text-primary" role="status"></div>
+    <span>Loading...</span>
+</div>
+
+<script>
+    const overlay = document.getElementById('loading-overlay');
+    const addBtn = document.getElementById('add-btn');
+    const addSpinner = addBtn.querySelector('.spinner-border');
+
+    overlay.style.display = 'flex';
+
+    addBtn.addEventListener('click', () => {
+        addSpinner.classList.remove('d-none');
+        overlay.style.display = 'flex';
+    });
+
+    document.querySelectorAll('.page-link-nav').forEach(link => {
+        link.addEventListener('click', (e) => {
+            overlay.style.display = 'flex';
+        });
+    });
+
+    window.addEventListener('load', () => {
+        overlay.style.display = 'none';
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
+</body>
+</html>
