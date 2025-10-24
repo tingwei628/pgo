@@ -6,9 +6,7 @@
     <title>{{if .IsEdit}}Edit Post{{else}}Add Post{{end}}</title>
 
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" as="style" onload="this.rel='stylesheet'">
-    <noscript>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-    </noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
 
     <style>
         body {
@@ -64,15 +62,11 @@
             align-items: center;
         }
         .btn-save:hover { opacity: 0.9; }
-
-        /* Spinner inside button */
         .spinner-border {
             width: 1rem;
             height: 1rem;
             margin-left: 0.5rem;
         }
-
-        /* Full-page overlay loading */
         #loading-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -109,7 +103,7 @@
     <div class="post-card">
         <form id="post-form">
             <input type="text" name="Title" placeholder="Title" value="{{if .IsEdit}}{{.Post.Title}}{{end}}" required>
-            <textarea name="Content" placeholder="Content" required>{{if .IsEdit}}{{.Post.Content}}{{end}}</textarea>
+            <textarea id="markdown-editor" name="Content" placeholder="Content" required>{{if .IsEdit}}{{.Post.Content}}{{end}}</textarea>
             <div class="text-end">
                 <button type="submit" class="btn-save">
                     <span class="btn-text">Save</span>
@@ -120,13 +114,25 @@
     </div>
 </div>
 
-<!-- Loading overlay -->
 <div id="loading-overlay">
     <div class="spinner-border" role="status"></div>
     <span>Processing...</span>
 </div>
-
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
 <script>
+    const easyMDE = new EasyMDE({
+        element: document.getElementById('markdown-editor'),
+        spellChecker: false,
+        autofocus: true,
+        autosave: {
+            enabled: true,
+            uniqueId: "myUniqueID",
+            delay: 1000, // in ms
+        },
+        placeholder: "Write your post in Markdown...",
+        status: ['lines', 'words', 'cursor']
+    });
+
     const form = document.getElementById('post-form');
     const saveBtn = form.querySelector('.btn-save');
     const btnText = saveBtn.querySelector('.btn-text');
@@ -137,7 +143,7 @@
         e.preventDefault();
 
         const title = form.Title.value.trim();
-        const content = form.Content.value.trim();
+        const content = easyMDE.value().trim();
         const data = { Title: title, Content: content };
 
         saveBtn.disabled = true;
@@ -176,7 +182,6 @@
         }
     });
 </script>
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>

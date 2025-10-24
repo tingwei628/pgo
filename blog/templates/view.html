@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Content</title>
 
-  <!-- Bootstrap 5 CSS -->
   <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" as="style" onload="this.rel='stylesheet'">
   <noscript>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
@@ -55,7 +54,6 @@
       height: 1rem;
       margin-left: 0.5rem;
     }
-
     #loading-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -105,6 +103,8 @@
   <span>Processing...</span>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <script>
   const postId = window.location.pathname.split('/').pop();
   const editBtn = document.getElementById('edit-btn');
@@ -125,7 +125,7 @@
       const data = await res.json();
 
       postTitle.textContent = data.title;
-      postContent.textContent = data.content;
+      postContent.innerHTML = marked.parse(data.content || "");
       const displayTime = data.updatedAt ? data.updatedAt : data.createdAt;
       postDate.textContent = "Published " + displayTime;
       document.title = data.title;
@@ -175,3 +175,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" defer></script>
 </body>
 </html>
+
